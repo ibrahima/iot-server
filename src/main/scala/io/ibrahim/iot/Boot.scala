@@ -1,4 +1,4 @@
-package com.example
+package io.ibrahim.iot
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
