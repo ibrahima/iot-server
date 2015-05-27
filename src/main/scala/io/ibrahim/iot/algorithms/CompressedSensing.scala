@@ -4,6 +4,7 @@ import breeze.linalg._
 import breeze.numerics._
 import breeze.stats.distributions._
 import io.ibrahim.iot._
+import io.ibrahim.linalg.Util._
 
 object CompressedSensing  {
   /** Generates a random dictionary matrix for use in compressed sensing
@@ -64,12 +65,11 @@ object CompressedSensing  {
     sum(errors)/N_tests
   }
 
-  def mat2String(mat: Matrix[Double]) = {
-    IndexedSeq.tabulate(mat.rows,mat.cols)(mat(_,_).toString).toString
-  }
-
   def handleMPRequest(req: SparseCodingRequest) = {
-    // TODO: Deserialize A and b matrices as CSV
     s"${req.A} x = ${req.b}"
+    val A = csvstring2mat(req.A)
+    val b = csvstring2mat(req.b).toDenseVector
+    val x_hat = mp(A, b)
+    Map("x_hat" -> mat2csvstring(x_hat.toDenseMatrix))
   }
 }

@@ -5,7 +5,7 @@ import spray.routing._
 import spray.http._
 import MediaTypes._
 import spray.json._
-import DefaultJsonProtocol._ // if you don't supply your own Protocol (see below)
+import spray.json.DefaultJsonProtocol._ // if you don't supply your own Protocol (see below)
 import io.ibrahim.iot.algorithms.CompressedSensing
 import spray.httpx.SprayJsonSupport._
 
@@ -17,7 +17,7 @@ object MyJsonProtocol extends DefaultJsonProtocol {
   implicit val sparseCodingRequestFormat = jsonFormat2(SparseCodingRequest)
 }
 
-import MyJsonProtocol._
+import MyJsonProtocol.sparseCodingRequestFormat
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
 class CompressedSensingActor extends Actor with CompressedSensingService {
